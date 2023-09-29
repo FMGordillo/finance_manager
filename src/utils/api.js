@@ -7,6 +7,7 @@ export function useTransactions() {
   const [data, setData] = createSignal(transactions);
 
   createEffect(() => {
+    setData(dbData.transactions);
     // const fetchedTransactions = dbData.transactions;
     // transactions = fetchedTransactions;
     // setData(fetchedTransactions);
@@ -14,7 +15,6 @@ export function useTransactions() {
 
   function addTransaction(newTransaction) {
     setData([...data(), newTransaction]);
-    dbData.transactions.push(newTransaction);
   }
 
   return [data, addTransaction];
