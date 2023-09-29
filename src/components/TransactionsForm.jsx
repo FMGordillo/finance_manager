@@ -24,7 +24,7 @@ function TransactionForm({ addTransaction }) {
 
   return (
     <form
-      class="bg-gray-900 text-white p-4 rounded-lg shadow-lg mt-4"
+      class="md:min-w-[350px] bg-gray-900 text-white p-4 rounded-lg shadow-lg"
       onSubmit={handleSubmit}
     >
       <div className="mb-4">

@@ -20,7 +20,7 @@ function TransactionList({ transactions }) {
   });
 
   return (
-    <div class="bg-gray-900 text-white p-4 rounded-lg shadow-lg">
+    <div class="md:min-w-[350px] bg-gray-900 text-white p-4 rounded-lg shadow-lg">
       <h2 class="text-2xl font-semibold mb-4">Total: ${total}</h2>
       <ul>
         {data().map((transaction) => (
