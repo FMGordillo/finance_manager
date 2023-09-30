@@ -4,7 +4,7 @@ import { createSignal, useContext } from "solid-js";
 function TransactionForm() {
   let descriptionInput;
 
-  const [, { add }] = useContext(DataContext);
+  const [state, { add }] = useContext(DataContext);
   const [description, setDescription] = createSignal("");
   const [amount, setAmount] = createSignal(0);
 
@@ -57,8 +57,9 @@ function TransactionForm() {
         />
       </div>
       <button
+        disabled={state.loading}
         type="submit"
-        className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+        className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md focus:outline-none focus:ring focus:ring-blue-300 disabled:bg-gray-500"
       >
         Add Transaction
       </button>

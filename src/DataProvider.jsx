@@ -39,7 +39,10 @@ async function handleQuery(input, data) {
 export const DataContext = createContext();
 
 export function DataProvider(props) {
-  const [state, setState] = createStore({ transactions: dbData.transactions });
+  const [state, setState] = createStore({
+    loading: false,
+    transactions: dbData.transactions,
+  });
 
   const value = [
     state,
@@ -48,8 +51,15 @@ export function DataProvider(props) {
         setState("transactions", (c) => [...c, d]);
       },
       async chat(t) {
-        const data = await handleQuery(t, state.transactions);
-        setState("transactions", data);
+        setState("loading", true);
+        try {
+          const data = await handleQuery(t, state.transactions);
+          setState("transactions", data);
+        } catch (error) {
+          console.log("chat error", error);
+        } finally {
+          setState("loading", false);
+        }
       },
       restore() {
         setState("transactions", dbData.transactions);

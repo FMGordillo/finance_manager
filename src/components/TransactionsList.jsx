@@ -5,8 +5,9 @@ import { DataContext } from "../DataProvider";
 function TransactionList() {
   const [state, { restore }] = useContext(DataContext);
   const [total, setTotal] = createSignal(0);
-  const [pages, setPages] = createSignal(Math.ceil(state.transactions.length / 5))
-
+  const [pages, setPages] = createSignal(
+    Math.ceil(state.transactions.length / 5)
+  );
 
   const [paginationProps, page] = createPagination({
     pages: pages(),
@@ -34,7 +35,13 @@ function TransactionList() {
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-semibold">Total: ${total}</h2>
         {state.transactions.length !== 1000 && (
-          <button onClick={restore} class="bg-gray-500 px-3 py-1 rounded-md">R</button>
+          <button
+            disabled={state.loading}
+            onClick={restore}
+            class="bg-blue-500 px-3 py-1 rounded-md disabled:bg-gray-500"
+          >
+            R
+          </button>
         )}
       </div>
 
