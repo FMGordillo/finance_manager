@@ -1,11 +1,13 @@
-import { createSignal } from "solid-js";
+import { createSignal, useContext } from "solid-js";
+import { DataContext } from "../DataProvider";
 
-function AIQuery({ handleQuery }) {
+function AIQuery() {
+  const [, { chat }] = useContext(DataContext);
   const [prompt, setPrompt] = createSignal("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    handleQuery(prompt());
+    chat(prompt());
   }
 
   return (

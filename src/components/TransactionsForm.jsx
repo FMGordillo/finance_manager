@@ -1,8 +1,10 @@
-import { createSignal } from "solid-js";
+import { DataContext } from "../DataProvider";
+import { createSignal, useContext } from "solid-js";
 
-function TransactionForm({ addTransaction }) {
+function TransactionForm() {
   let descriptionInput;
 
+  const [, { add }] = useContext(DataContext);
   const [description, setDescription] = createSignal("");
   const [amount, setAmount] = createSignal(0);
 
@@ -13,7 +15,7 @@ function TransactionForm({ addTransaction }) {
         description: description(),
         amount: +amount(),
       };
-      addTransaction(newTransaction);
+      add(newTransaction);
       setDescription("");
       setAmount(0);
       descriptionInput.focus();

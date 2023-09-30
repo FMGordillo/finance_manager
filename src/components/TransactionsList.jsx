@@ -1,27 +1,43 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, useContext } from "solid-js";
 import { createPagination } from "@solid-primitives/pagination";
+import { DataContext } from "../DataProvider";
 
-function TransactionList({ transactions }) {
+function TransactionList() {
+  const [state, { restore }] = useContext(DataContext);
   const [total, setTotal] = createSignal(0);
+  const [pages, setPages] = createSignal(Math.ceil(state.transactions.length / 5))
+
+
   const [paginationProps, page] = createPagination({
-    pages: Math.ceil(transactions().length / 5),
+    pages: pages(),
     maxPages: 2,
   });
 
   const [data, setData] = createSignal([]);
 
   createEffect(() => {
+    console.log({ state });
+    const initial = (page() - 1) * 5;
+    const end = initial + 5;
+    // TODO: This is not working!
+    setPages(Math.ceil((state.transactions.length || 1) / 5));
+    setData(state.transactions.slice(initial, end));
     setTotal(
-      transactions().reduce((acc, transaction) => acc + +transaction.amount, 0).toLocaleString()
+      state.transactions
+        .reduce((acc, transaction) => acc + +transaction.amount, 0)
+        .toLocaleString()
     );
-    const initial = (page() - 1) * 5
-    const end = initial + 5
-    setData(transactions().slice(initial, end));
   });
 
   return (
     <div class="md:min-w-[350px] bg-gray-900 text-white p-4 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-semibold mb-4">Total: ${total}</h2>
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">Total: ${total}</h2>
+        {state.transactions.length !== 1000 && (
+          <button onClick={restore} class="bg-gray-500 px-3 py-1 rounded-md">R</button>
+        )}
+      </div>
+
       <ul>
         {data().map((transaction) => (
           <li
@@ -37,6 +53,7 @@ function TransactionList({ transactions }) {
           </li>
         ))}
       </ul>
+
       <div className="mt-4 flex justify-center">
         <For each={paginationProps()}>
           {(props) => (
