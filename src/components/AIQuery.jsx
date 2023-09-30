@@ -2,16 +2,34 @@ import { createSignal, useContext } from "solid-js";
 import { DataContext } from "../DataProvider";
 
 function AIQuery() {
-  const [state, { chat }] = useContext(DataContext);
+  const [state, { registerUser, chat }] = useContext(DataContext);
   const [prompt, setPrompt] = createSignal("");
 
-  function handleSubmit(e) {
+  async function beforeSubmit() {
+    if (!state.contact) {
+      const email = window.prompt(
+        "Before continuing, please give us your email. This will avoid spam in our servers"
+      );
+      const regex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
+
+      if (!regex.test(email)) {
+        alert("Not valid email, sorry");
+        throw new Error("not valid email");
+      } else {
+        await registerUser(email);
+      }
+    }
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    await beforeSubmit();
     chat(prompt());
   }
 
-  function handleCompletition(e) {
+  async function handleCompletition(e) {
     setPrompt(e.target.outerText);
+    await beforeSubmit();
     chat(e.target.outerText);
   }
 

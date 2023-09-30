@@ -4,6 +4,7 @@ import TransactionList from "./components/TransactionsList";
 import { DataProvider } from "./DataProvider";
 
 function App() {
+
   return (
     <DataProvider>
       <div class="relative bg-gray-800 min-h-screen">

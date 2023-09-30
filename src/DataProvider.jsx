@@ -35,10 +35,35 @@ async function handleQuery(input, data) {
   }
 }
 
+async function handleUpdateDB(email) {
+  try {
+    await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/db/banking`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          url: window.origin,
+        }),
+      }
+    );
+  } catch (error) {
+    console.error("Error while updating DB", error);
+  }
+}
+
 export const DataContext = createContext();
+
+function getContactFromLocal() {
+  return localStorage.getItem("email");
+}
 
 export function DataProvider(props) {
   const [state, setState] = createStore({
+    contact: getContactFromLocal(),
     loading: false,
     transactions: dbData.transactions,
   });
@@ -49,6 +74,20 @@ export function DataProvider(props) {
       add(d) {
         setState("transactions", (c) => [...c, d]);
       },
+
+      async registerUser(u) {
+        setState("loading", true);
+        try {
+          setState("contact", u);
+          localStorage.setItem("email", u);
+          await handleUpdateDB(u);
+        } catch (error) {
+          console.log("registerUser error", error);
+        } finally {
+          setState("loading", false);
+        }
+      },
+
       async chat(t) {
         setState("loading", true);
         try {
@@ -60,6 +99,7 @@ export function DataProvider(props) {
           setState("loading", false);
         }
       },
+
       restore() {
         setState("transactions", dbData.transactions);
       },
