@@ -1,8 +1,10 @@
-import { createSignal } from "solid-js";
+import { DataContext } from "../DataProvider";
+import { createSignal, useContext } from "solid-js";
 
-function TransactionForm({ addTransaction }) {
+function TransactionForm() {
   let descriptionInput;
 
+  const [state, { add }] = useContext(DataContext);
   const [description, setDescription] = createSignal("");
   const [amount, setAmount] = createSignal(0);
 
@@ -12,8 +14,9 @@ function TransactionForm({ addTransaction }) {
       const newTransaction = {
         description: description(),
         amount: +amount(),
+        created_at: new Date().toISOString(),
       };
-      addTransaction(newTransaction);
+      add(newTransaction);
       setDescription("");
       setAmount(0);
       descriptionInput.focus();
@@ -24,7 +27,7 @@ function TransactionForm({ addTransaction }) {
 
   return (
     <form
-      class="bg-gray-900 text-white p-4 rounded-lg shadow-lg mt-4"
+      class="md:min-w-[350px] bg-gray-900 text-white p-4 rounded-lg shadow-lg"
       onSubmit={handleSubmit}
     >
       <div className="mb-4">
@@ -55,8 +58,9 @@ function TransactionForm({ addTransaction }) {
         />
       </div>
       <button
+        disabled={state.loading}
         type="submit"
-        className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+        className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md focus:outline-none focus:ring focus:ring-blue-300 disabled:bg-gray-500"
       >
         Add Transaction
       </button>
