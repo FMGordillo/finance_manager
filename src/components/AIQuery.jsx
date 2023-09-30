@@ -22,7 +22,7 @@ function AIQuery() {
           <span class="text-white">Tu query</span>
           <div class="flex gap-2">
             <input
-              class="px-2 w-80 max-w-lg"
+              class="px-2 w-60 md:w-80 md:max-w-lg"
               onInput={(e) => setPrompt(e.target.value)}
               placeholder="Buscá movimientos menores a 1000"
               type="text"

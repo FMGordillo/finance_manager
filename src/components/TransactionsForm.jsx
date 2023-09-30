@@ -14,6 +14,7 @@ function TransactionForm() {
       const newTransaction = {
         description: description(),
         amount: +amount(),
+        created_at: new Date().toISOString(),
       };
       add(newTransaction);
       setDescription("");

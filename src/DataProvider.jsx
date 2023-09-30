@@ -29,7 +29,6 @@ async function handleQuery(input, data) {
     const movements = data; // don't delete, being used in `eval`
     // TODO: Improve this crap
     const evalResponse = eval(codeToRun);
-    console.log({ evalResponse });
     return evalResponse;
   } catch (error) {
     console.error("Our code is not valid", error);

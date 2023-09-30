@@ -1,6 +1,7 @@
 import { createEffect, createSignal, useContext } from "solid-js";
 import { createPagination } from "@solid-primitives/pagination";
 import { DataContext } from "../DataProvider";
+import RefreshIcon from '../assets/refresh-outline.svg';
 
 function TransactionList() {
   const [state, { restore }] = useContext(DataContext);
@@ -17,7 +18,6 @@ function TransactionList() {
   const [data, setData] = createSignal([]);
 
   createEffect(() => {
-    console.log({ state });
     const initial = (page() - 1) * 5;
     const end = initial + 5;
     // TODO: This is not working!
@@ -40,7 +40,7 @@ function TransactionList() {
             onClick={restore}
             class="bg-blue-500 px-3 py-1 rounded-md disabled:bg-gray-500"
           >
-            R
+            <img class="w-4 h-4" src={RefreshIcon} />
           </button>
         )}
       </div>
@@ -48,14 +48,21 @@ function TransactionList() {
       <ul>
         {data().map((transaction) => (
           <li
-            class="flex justify-between items-center py-2"
+            class="grid grid-cols-3 justify-between items-center py-2"
             key={transaction.id}
           >
             <span class="truncate">{transaction.description}</span>
             <span
-              class={`text-${transaction.amount >= 0 ? "green" : "red"}-500`}
+              class={`text-center text-${transaction.amount >= 0 ? "green" : "red"}-500`}
             >
               ${transaction.amount}
+            </span>
+            <span class="text-right truncate">
+              {new Date(transaction.created_at).toLocaleString("es-ES", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
             </span>
           </li>
         ))}
