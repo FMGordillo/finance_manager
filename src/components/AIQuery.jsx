@@ -70,7 +70,7 @@ function AIQuery() {
             role="button"
             onClick={handleCompletition}
           >
-            Dame movimientos mayores a -25 dólares
+            Mostrame movimientos entre el año pasado y este año
           </button>
         </div>
       </div>
