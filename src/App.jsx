@@ -35,7 +35,7 @@ function App() {
             Created by{" "}
             <a
               class="underline text-blue-400 hover:text-blue-300"
-              href="https:/chirotech.dev"
+              href="https://chirotech.dev"
               rel="noreferrer noopener"
               target="_blank"
             >
