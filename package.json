@@ -19,6 +19,7 @@
     "vite-plugin-solid": "^2.7.0"
   },
   "dependencies": {
+    "@solid-primitives/i18n": "^2.0.0",
     "@solid-primitives/pagination": "^0.2.8",
     "solid-js": "^1.7.6"
   }

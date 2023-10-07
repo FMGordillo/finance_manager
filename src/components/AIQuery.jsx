@@ -1,7 +1,9 @@
 import { createSignal, useContext } from "solid-js";
 import { DataContext } from "../DataProvider";
+import { I18nContext } from "../I18nProvider";
 
 function AIQuery() {
+  const [t] = useContext(I18nContext);
   const [state, { registerUser, chat }] = useContext(DataContext);
   const [prompt, setPrompt] = createSignal("");
 
@@ -45,7 +47,7 @@ function AIQuery() {
               disabled={state.loading}
               class="rounded-lg p-2 w-60 md:w-80 md:max-w-lg disabled:bg-gray-500"
               onInput={(e) => setPrompt(e.target.value)}
-              placeholder="Buscá movimientos menores a 1000"
+              placeholder={t("input-placeholder")}
               type="text"
               value={prompt()}
             />
@@ -72,7 +74,7 @@ function AIQuery() {
             role="button"
             onClick={handleCompletition}
           >
-            Get movements above 150 dollars
+            {t("suggestion-1")}
           </button>
           <button
             disabled={state.loading}
@@ -80,7 +82,7 @@ function AIQuery() {
             role="button"
             onClick={handleCompletition}
           >
-            Mostrame movimientos entre el año pasado y este año
+            {t("suggestion-2")}
           </button>
         </div>
       </div>

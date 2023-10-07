@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@solid-primitives/i18n':
+    specifier: ^2.0.0
+    version: 2.0.0(solid-js@1.7.6)
   '@solid-primitives/pagination':
     specifier: ^0.2.8
     version: 0.2.8(solid-js@1.7.6)
@@ -708,6 +711,14 @@ packages:
       '@solid-primitives/utils': 6.2.0(solid-js@1.7.6)
       solid-js: 1.7.6
     dev: true
+
+  /@solid-primitives/i18n@2.0.0(solid-js@1.7.6):
+    resolution: {integrity: sha512-2sfhiUGl3eCPrDnPpQapbKnZ2iVo1IY6aI5vJTozc2fIf/yEM2+LlCY4PwQTf8vkM5B0Pf3jA+7vC70fR6xbmg==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      solid-js: 1.7.6
+    dev: false
 
   /@solid-primitives/keyboard@1.2.3(solid-js@1.7.6):
     resolution: {integrity: sha512-8EBUk1lARIXVhSs9H2t0rclCuyX1y56Kf9J8VVmlPDSh1L+nSIU0wcDGVeVy3HWG6W8pRoRD7kwlQvXhdW2LAQ==}
