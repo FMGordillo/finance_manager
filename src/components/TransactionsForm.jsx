@@ -60,7 +60,7 @@ function TransactionForm() {
       <button
         disabled={state.loading}
         type="submit"
-        className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md focus:outline-none focus:ring focus:ring-blue-300 disabled:bg-gray-500"
+        className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md focus:outline-none focus:ring focus:ring-blue-300 disabled:bg-gray-700 disabled:text-gray-400"
       >
         Add Transaction
       </button>
