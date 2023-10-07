@@ -1,26 +1,27 @@
-import { For, createEffect, createSignal, useContext } from "solid-js";
-import { createPagination } from "@solid-primitives/pagination";
+import { For, Show, createEffect, createSignal, useContext } from "solid-js";
 import { DataContext } from "../DataProvider";
 import RefreshIcon from "../assets/refresh-outline.svg";
+import Pagination from "./Pagination";
 
 function TransactionList() {
   const [state, { restore }] = useContext(DataContext);
+
+  // Current page in the pagination
+  const [page, setPage] = createSignal(1);
+
+  // Data to show, updates when page changes
+  const [transactions, setTransactions] = createSignal([]);
+  // Sum of transactions
   const [total, setTotal] = createSignal(0);
-  const [pages, setPages] = createSignal(
-    Math.ceil(state.transactions.length / 5),
-  );
 
-  const [paginationProps, page, setPage] = createPagination({
-    pages: pages(),
-    maxPages: 2,
-  });
-
-  const [data, setData] = createSignal([]);
+  function handlePageChange(page) {
+    setPage(page);
+  }
 
   createEffect(() => {
     const initial = (page() - 1) * 5;
     const end = initial + 5;
-    setData(state.transactions.slice(initial, end));
+    setTransactions(state.transactions.slice(initial, end));
     setTotal(
       state.transactions
         .reduce((acc, transaction) => acc + +transaction.amount, 0)
@@ -28,23 +29,18 @@ function TransactionList() {
     );
   });
 
-  createEffect(() => {
-    setPages(Math.ceil((state.transactions.length || 1) / 5));
-    setPage(1);
-  });
-
   return (
     <div class="relative md:min-w-[350px] bg-gray-900 text-white p-4 rounded-lg shadow-lg">
       {/* Opacity overlay */}
-      {state.loading && (
+      <Show when={state.loading}>
         <div class="absolute inset-0 bg-gray-900 opacity-50 flex items-center justify-center">
           <div class="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500 border-opacity-75" />
         </div>
-      )}
+      </Show>
 
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-semibold">Total: ${total}</h2>
-        {state.transactions.length !== 1000 && (
+        <Show when={state.transactions.length !== 1000}>
           <button
             disabled={state.loading}
             onClick={restore}
@@ -52,11 +48,11 @@ function TransactionList() {
           >
             <img class="w-4 h-4" src={RefreshIcon} />
           </button>
-        )}
+        </Show>
       </div>
 
       <ul>
-        <For each={data()}>
+        <For each={transactions()}>
           {(transaction) => (
             <li
               class="grid grid-cols-3 justify-between items-center py-2"
@@ -82,16 +78,7 @@ function TransactionList() {
         </For>
       </ul>
 
-      <div className="mt-4 flex justify-center">
-        <For each={paginationProps()}>
-          {(props) => (
-            <button
-              {...props}
-              class="px-3 py-2 bg-blue-500 text-white font-semibold rounded-md disabled:bg-gray-500"
-            />
-          )}
-        </For>
-      </div>
+      <Pagination page={page} setPage={handlePageChange} />
     </div>
   );
 }
