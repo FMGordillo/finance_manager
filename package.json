@@ -6,7 +6,8 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "postinstall": "pnpx dotenv-vault@latest pull"
   },
   "license": "MIT",
   "devDependencies": {
@@ -22,5 +23,6 @@
     "@solid-primitives/i18n": "^2.0.0",
     "@solid-primitives/pagination": "^0.2.8",
     "solid-js": "^1.7.6"
-  }
+  },
+  "packageManager": "pnpm@8.5.1"
 }
